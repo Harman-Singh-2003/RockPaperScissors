@@ -2,17 +2,8 @@ const selections = ["Rock", "Paper", "Scissors"];
 
 let computerPlay = () => selections[Math.floor(Math.random() * 3)];
 
-function playerChoice() {
+let score = 0;
 
-    let playerSelection;
-
-    do {
-        playerSelection = prompt("Choose either Rock, Paper or Scissors");
-        playerSelection = playerSelection.substring(0, 1).toUpperCase() + playerSelection.substring(1).toLowerCase();
-
-    } while (!(selections.includes(playerSelection)));
-    return playerSelection;
-}
 
 function playRound(playerSelection, computerSelection) {
 
@@ -21,52 +12,60 @@ function playRound(playerSelection, computerSelection) {
 
     console.log("-------------------------");
 
-    if(playerSelection == "Rock" && computerSelection == "Paper"){
+    if (playerSelection == "Rock" && computerSelection == "Paper") {
         return -1;
     }
-    else if(playerSelection == "Rock" && computerSelection == "Scissors"){
+    else if (playerSelection == "Rock" && computerSelection == "Scissors") {
         return 1;
     }
-    else if(playerSelection == "Paper" && computerSelection == "Rock"){
+    else if (playerSelection == "Paper" && computerSelection == "Rock") {
         return 1;
     }
-    else if(playerSelection == "Paper" && computerSelection == "Scissors"){
+    else if (playerSelection == "Paper" && computerSelection == "Scissors") {
         return -1;
     }
-    else if(playerSelection == "Scissors" && computerSelection == "Rock"){
+    else if (playerSelection == "Scissors" && computerSelection == "Rock") {
         return -1;
     }
-    else if(playerSelection == "Scissors" && computerSelection == "Paper"){
+    else if (playerSelection == "Scissors" && computerSelection == "Paper") {
         return 1;
     }
-    else{
+    else {
         return 0;
     }
 }
 
-function game() {
+function game(playerSelection) {
 
-    let rounds = prompt("How many rounds would you like to play?")
-    let score = 0;
+    score += playRound(playerSelection, computerPlay());
 
-    for (let i = 0; i < rounds; i++) {
-        score += playRound(playerChoice(), computerPlay());
-    }
+    scoreDiv.textContent = "Score:" + score.toString();
 
-    if(score > 0){
+    if (score > 0) {
         console.log("You Win!");
     }
-    else if(score < 0){
+    else if (score < 0) {
         console.log("You Lost.");
     }
-    else{
+    else {
         console.log("Tie!");
     }
-
 }
 
 
-game();
+
+scoreDiv = document.querySelector('#scores');
+
+const btns = document.querySelectorAll('button');
+btns.forEach((btn) =>{
+    btn.disable=true;
+    btn.onclick = () => game(btn.value.substring(0,1).toUpperCase() + btn.value.substring(1).toLowerCase());
+});
+
+
+
+
+
 
 
 
